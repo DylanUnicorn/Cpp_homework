@@ -1,0 +1,79 @@
+自定义数据类型：结构   联合  枚举
+ 
+结构体
+struct  结构名
+{
+  结构成员列表（属性表）
+   类型 成员名
+   }；
+   内存大小 ：所有成员之和  内存对齐标准 以成员中最大的内存单元对齐
+    
+   结构体的访问：
+   1.结构变量.成员名
+   2.结构指针->成员名
+    
+   ex：
+   struct  Hero
+   {
+   char name[10];
+   int lv;
+   int Att;
+   }
+   定义一个结构体Hero的变量hero，并初始化
+   Hero hero={“Jack”，1,5}
+   cout<<sizeof(hero)<<endl;-》20        最大的内存单元为 10个  name10个，下面在给10 个刚好给 两个int类型  8个字节；
+    
+    
+   定义一个结构体的数组，并初始化
+   Hero  hero2[3]={{“a”，1,2}，{“b”，2,4}，{“def”，3,6}}；
+   cout<<sizeof(hero2)<<endl;
+    
+    
+   结构变量访问成员：
+   hero.lv=2;
+   hero.Att+=2;
+     hero.name[0]='a';
+     hero.name[1[='e';
+     cout<<hero,name<<endl;
+     strcpy(hero.name,"abcd");
+      
+      
+    结构体指针访问结构成员：
+    Hero  *phero=&hero;
+    phero=new  hero;
+    phero->lv=10;
+    strcpy(phero->name,"def");
+    cout<<hero.lv<<endl;
+     
+    struct  test    
+    {
+    char a;
+    short   b;
+    char c;
+    int d;
+    }
+    分配内存以int为主，直接给4个字节  并且有short  char类型的时候对半分在存，存不完要重新给4个字节
+sizeof(test);
+ 
+ 
+联合：
+内存大小：所有成员共享一段内存  每次给一个int类型的字节大小       只取最大的部分占的内存     
+Union U
+{
+char c[5];                      给两个int  总共8个字节才能装下char c【5】个字节  
+int b;
+}
+cout<<sizeof(U)<<endl;-》8
+ 
+     
+ 枚举：
+ 内存大小：和int类型大小一致  4个字节
+  
+ 枚举元素表中元素都对应一个整数，该整数 默认从0开始 依次+1
+  
+ enum state
+ {
+ 枚举元素表（合法标识符）
+ stand,move=2,attack,rum
+ };
+ cout<<Attack<<endl;
