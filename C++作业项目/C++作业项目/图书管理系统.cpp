@@ -8,34 +8,36 @@ void Wind();
 
 class Book
 {
+	char sumary[1000];
 	char name[20];
 	int price;
 	char number[20];
 	int state;
 public:
-	Book(char n[], int p, char num1[]) {
-	
-	strcpy_s(name, n);
-			price = p;
-			strcpy_s(number, num1);
-			state = 1;
+	Book(char n[], int p, char num1[], char sum[]) {
+
+		strcpy_s(name, n);
+		price = p;
+		strcpy_s(number, num1); strcpy_s(sumary, sum);
+		state = 1;
 	}
 	Book() {
 		strcpy_s(name, "  ");
 		price = 0;
-		strcpy_s(number, "  ");
+		strcpy_s(number, "  ");	strcpy_s(sumary, "  ");
 		state = 1;
 	}
 
-	void set(char n[], int p, char num1[]) {
+	void set(char n[], int p, char num1[], char sum[]) {
 		strcpy_s(name, n);
 		price = p;
-		strcpy_s(number, num1);
+		strcpy_s(number, num1); strcpy_s(sumary, sum);
 	}
 	void show() {
 		cout << "书名：" << name << endl;
 		cout << "价格：" << price << endl;
 		cout << "编号：" << number << endl;
+		cout << "内容简介：" << sumary << endl;
 	}
 	char* getname() {
 		return name;
@@ -46,24 +48,23 @@ public:
 	char* getnumber() {
 		return number;
 	}
+	char* getsumary() {
+		return sumary;
+	}
 };
 int main() {
 	cout << "******************************" << endl;
 	cout << "**********欢迎使用************" << endl;
 	cout << "**********图书管理系统********" << endl;
-	cout << "**********1.加入书名**********" << endl;
-	cout << "**********2.按名删除图书******" << endl;
 	cout << "**********3.按名查找图书******" << endl;
-	cout << "**********4.清空图书架********" << endl;
-	cout << "**********5.修改图书名********" << endl;
 	cout << "**********6.显示图书架********" << endl;
 	cout << "**********7.退出系统**********" << endl;
+	cout << "**********8.借书**********" << endl;
+	cout << "**********10.管理员模式********" << endl;
 	cout << "******************************" << endl;
-	
- 
 
 
-	Book book[100];
+	Book book[100] = {};
 	int argc = 0;
 	int i = 0;
 	while (true) {
@@ -71,102 +72,177 @@ int main() {
 		int n;
 		cin >> n;
 		switch (n) {
-		case 1: {
-			cout << "请输入书名：";
-			char name[20]; cin >> name;
-			cout << "请输入价格：";
-			int price; cin >> price;
-			cout << "请输入编号：";
-			char number[20]; cin >> number;
-			book[i].set(name, price, number);
-			cout << "加入成功！" << endl;
-			i++;//也许后面要改一下
-		}break;
-		case 2: {
-			cout << "请输入要删除的书名：";
-			int t = 1;
-			char name[20]; cin >> name;
-			for (int k = 0; k < 100; k++) {
-				char a1[] = " ";
-				char b1[] = " ";
-				if (strcmp(book[k].getname(), name) == 0 && book[k].getname()[0] == name[0]) {
-					book[k].set(a1, 0, b1);
-					cout << "删除成功！" << endl;
-					t = 1;
-				}
-				else { t = 0; break; }
-			}
-			if (t == 0) {
-				cout << "查无此书！" << endl;
-			}
-		}break;
+
 		case 3: {
 			int t = 1;
 			cout << "请输入要查找的书名：";
 			char name[20]; cin >> name;
 			for (int k = 0; k < 100; k++) {
 				if (strcmp(book[k].getname(), name) == 0 && book[k].getname()[0] == name[0]) {
+					t = 1;
+					book[k].show(); break;
+					
+				}
+				else { t = 0;  }
+			}
+			if (t == 0) {
+				cout << "查无此书！" << endl;
+			}
+		}break;
 
-					book[k].show(); t = 1;
-				}
-				else { t = 0; break; }
-			}
-			if (t == 0) {
-				cout << "查无此书！" << endl;
-			}
-		}break;
-		case 4: {
-			for (int k = 0; k < 100; k++) {
-				char a1[] = " ";
-				char b1[] = " ";
-				book[k].set(a1, 0, b1);
-			}
-			cout << "清空成功！" << endl;
-		}break;
-		case 5: {
-			cout << "请输入要修改的书名：";
-			char name[20]; cin >> name;
-			cout << "请输入新的书名：";
-			char name1[20]; cin >> name1;
-			cout << "请输入新的价格：";
-			int price; cin >> price;
-			cout << "请输入新的编号：";
-			char number[20]; cin >> number;
-			int t = 1;
-			for (int k = 0; k < 100; k++) {
-				if (strcmp(book[k].getname(), name) == 0 && book[k].getname()[0] == name[0]) {
-					book[k].set(name1, price, number);
-					cout << "修改成功！" << endl; t = 1;
-				}
-				else { t = 0; break; }
-			}
-			if (t == 0) {
-				cout << "查无此书！" << endl;
-			}
-		}break;
+
 		case 6: {
 			for (int k = 0; k < i; k++) {
-				if (book[k].getname()[0] != ' '&& book[k].getname()[1] != ' ') {
+				if (book[k].getname()[0] != ' ' && book[k].getname()[1] != ' ') {
 					book[k].show();
+					cout << endl;
 				}
 			}
 		}break;
+
+		case 10:
+		{
+
+			int code;
+			cout << "请输入密码" << endl;
+			cin >> code;
+			if (code == 123456)
+			{
+				cout << "亲爱的管理员，欢迎进入系统" << endl;
+				cout << "**********1.加入书名**********" << endl;
+				cout << "**********2.按名删除图书******" << endl; cout << "**********4.清空图书架********" << endl; cout << "**********5.修改图书名********" << endl;
+				cout << "**********0.退管理员**********" << endl;
+
+
+
+				int k;
+				int temp = 0;
+
+				while (true) {
+					cout << "请输入您的选择：";
+					cin >> k;
+
+
+
+					switch (k) {
+
+					case 1: {
+						cout << "请输入书名：";
+						char name[20]; cin >> name;
+						cout << "请输入价格：";
+						int price; cin >> price;
+						cout << "请输入编号：";
+						char number[20]; cin >> number;
+						cout << "请输入内容简介：";
+						char sumary[10000]; cin >> sumary;
+
+						book[i].set(name, price, number, sumary);
+						cout << "加入成功！" << endl;
+						i++;//也许后面要改一下
+					}break;
+
+					case 2: {
+						cout << "请输入要删除的书名：";
+						int t = 1;
+						char name[20]; cin >> name;
+						for (int k = 0; k < 100; k++) {
+							char a1[] = " "; char c1[] = " ";
+							char b1[] = " ";
+							if (strcmp(book[k].getname(), name) == 0 && book[k].getname()[0] == name[0]) {
+								book[k].set(a1, 0, b1, c1);
+								cout << "删除成功！" << endl;
+								t = 1;
+							}
+							else { t = 0; break; }
+						}
+						if (t == 0) {
+							cout << "查无此书！" << endl;
+						}
+					}break;
+
+					case 4: {
+						for (int k = 0; k < 100; k++) {
+							char a1[] = " "; char c1[] = " ";
+							char b1[] = " ";
+							book[k].set(a1, 0, b1, c1);
+						}
+						cout << "清空成功！" << endl;
+					}break;
+
+					case 5: {
+						cout << "请输入要修改的书名：";
+						char name[20]; cin >> name;
+						cout << "请输入新的书名：";
+						char name1[20]; cin >> name1;
+						cout << "请输入新的价格：";
+						int price; cin >> price;
+						cout << "请输入新的编号：";
+						char number[20]; cin >> number;
+						cout << "请输入新的内容简介：";
+						char sumary[10000]; cin >> sumary;
+						int t = 1;
+						for (int k = 0; k < 100; k++) {
+							if (strcmp(book[k].getname(), name) == 0 && book[k].getname()[0] == name[0]) {
+								book[k].set(name1, price, number, sumary);
+								cout << "修改成功！" << endl; t = 1;
+							}
+							else { t = 0; break; }
+						}
+						if (t == 0) {
+							cout << "查无此书！" << endl;
+						}
+					}break;
+
+					case 0:
+					{cout << "退出管理员系统成功" << endl; temp = 1;
+					cout << "**********回到了用户系统******" << endl;
+					cout << "**********3.按名查找图书******" << endl;
+					cout << "**********6.显示图书架********" << endl;
+					cout << "**********7.退出系统**********" << endl;
+					cout << "**********8.借书**********" << endl;
+					cout << "**********10.管理员模式********" << endl;
+					cout << "******************************" << endl;
+					}//退出系统
+
+
+
+					}
+					if (temp == 1)break;
+
+				}
+
+
+
+
+			}
+			else { cout << "密码错误" << endl;     break; }
+
+		}break;
+
+
+
+
+
 		case 7: {
-			cout << "谢谢使用！" << endl;argc = 1;
+			cout << "谢谢使用！" << endl; argc = 1;
 
 			break;
 		}
 
+		case 8: {
+			cout << "该功能尚未开发，尽情期待" << endl;
+		}break;
+
+			//default: {break;}
 		}
+
 		if (argc == 1)break;
 
 	}
 	Wind();
-	//sleep(5000);
+
 	return 0;
 }
-
-
 
 
 enum Scale
